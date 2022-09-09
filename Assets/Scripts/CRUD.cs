@@ -5,46 +5,46 @@ using System;
 
 public class CRUD : MonoBehaviour
 {
-	private const string dbname = "english_simulator.db";
-	public static string connectionString;
-	public static SqliteConnection connection;
-	public static SqliteCommand command;
-	public static SqliteDataReader reader;
+    private const string dbname = "english_simulator.db";
+    public static string connectionString;
+    public static SqliteConnection connection;
+    public static SqliteCommand command;
+    public static SqliteDataReader reader;
 
-	/// <summary>
-	/// Соединение с базой данных
-	/// </summary>
-	public void OpenDataBase()
-	{
-		string filepath = "";
-		if (Application.platform == RuntimePlatform.Android)
-			filepath = Application.persistentDataPath + "/" + dbname;
-		else
-			filepath = Application.streamingAssetsPath + "/" + dbname;
-		if (!File.Exists(filepath))
-		{
-			WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + dbname);
-			while (!loadDB.isDone) { }
-			File.WriteAllBytes(filepath, loadDB.bytes);
-		}
+    /// <summary>
+    /// Соединение с базой данных
+    /// </summary>
+    public void OpenDataBase()
+    {
+        string filepath = "";
+        if (Application.platform == RuntimePlatform.Android)
+            filepath = Application.persistentDataPath + "/" + dbname;
+        else
+            filepath = Application.streamingAssetsPath + "/" + dbname;
+        if (!File.Exists(filepath))
+        {
+            WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + dbname);
+            while (!loadDB.isDone) { }
+            File.WriteAllBytes(filepath, loadDB.bytes);
+        }
 
-		connectionString = "URI=file:" + filepath;
-		connection = new SqliteConnection(connectionString);
-		connection.Open();
-	}
+        connectionString = "URI=file:" + filepath;
+        connection = new SqliteConnection(connectionString);
+        connection.Open();
+    }
 
-	/// <summary>
-	/// Закрыть подключение в базе данных
-	/// </summary>
-	public void CloseDataBase()
-	{
-		reader.Close();
-		reader = null;
-		command.Dispose();
-		command = null;
-		connection.Close();
-		connection = null;
-	}
+    /// <summary>
+    /// Закрыть подключение в базе данных
+    /// </summary>
+    public void CloseDataBase()
+    {
+        reader.Close();
+        reader = null;
+        command.Dispose();
+        command = null;
+        connection.Close();
+        connection = null;
+    }
 
     /// <summary>
     /// Оператор SELECT
